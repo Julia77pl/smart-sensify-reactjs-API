@@ -3,15 +3,16 @@ import { Button, View } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import RegistrationScreen from './Register';
-import Login2Screen from './Login';
+import Loginscr from './Login';
 import EmailScreen from './App2';
-import MapWithSensors from './GetASensors';
+import { MapWithSensors } from './GetASensors';
 import AddSensorComponent from './AddSensor';
 import SensorDetail from './GetASensor';
-import SensorDetail from './PutSensor';
+import { SensorDetailput } from './PutSensor';
 import SensorData from './GetSensorData';
-import DeleteSensor from './Delete';
-import AddDataToSensor from './AddDataToSensor';
+import { DeleteSensor } from './Delete';
+import { SensorDataForm } from './AddDataToSensor';
+
 
 function HomeScreen({ navigation }) {
   return (
@@ -99,13 +100,13 @@ export default function App() {
       <Drawer.Navigator initialRouteName="SmartSensify">
         <Drawer.Screen name="SmartSensify" component={HomeScreen} />
         <Drawer.Screen name="Rejestracja" component={RegistrationScreen} />
-		<Drawer.Screen name="Logowanie" component={Login2Screen} />
+		<Drawer.Screen name="Logowanie" component={Loginscr} />
         <Drawer.Screen name="Wszystie czujniki" component={MapWithSensors} />
 		<Drawer.Screen name="Dodaj czujnik " component={AddSensorComponent} />
 		<Drawer.Screen name="Odbierz parametry od czujnika" component={SensorDetail} />
 		<Drawer.Screen name="Odbierz dane od czujnika" component={SensorData} />
-		<Drawer.Screen name="Dodaj dane do czujnika" component={PostSensorData} />
-		<Drawer.Screen name="Zmien parametry czujnika" component={SensorDetail} />
+	    <Drawer.Screen name="Dodaj dane do czujnika" component={SensorDataForm} />
+		<Drawer.Screen name="Zmien parametry czujnika" component={SensorDetailput} />
 		<Drawer.Screen name="Usuń czujnik" component={DeleteSensor} />
       </Drawer.Navigator>
     </NavigationContainer>

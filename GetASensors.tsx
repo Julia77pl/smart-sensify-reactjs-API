@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-// import 'leaflet/dist/leaflet.css';
+import MapView, { Marker } from 'react-native-maps';
 
 interface ISensor {
   _id: string;
@@ -22,22 +21,16 @@ export const MapWithSensors: React.FC = () => {
   }, []);
 
   return (
-    <MapContainer center={[51.505, -0.09]} zoom={13} style={{ height: '100vh', width: '100%' }}>
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      />
+    <MapView style={{ flex: 1 }} initialRegion={{latitude: 51.505, longitude: -0.09, latitudeDelta: 0.0922, longitudeDelta: 0.0421}}
+    >
       {sensors.map((sensor) => (
-        <Marker key={sensor._id} position={sensor.location}>
-          <Popup>
-            <strong>{sensor.name}</strong>
-            <br />
-            <em>Type: {sensor.type.join(', ')}</em>
-            <br />
-            <small>Is Public: {sensor.isPublic ? 'Yes' : 'No'}</small>
-          </Popup>
-        </Marker>
+        <Marker 
+          coordinate={{latitude: sensor.location.lat, longitude: sensor.location.lng}}
+          title={sensor.name} 
+          description={'Type: ' + sensor.type.join(', ') + ', Is public: ' + (sensor.isPublic ? 'Yes' : 'No')}
+          key={sensor._id}
+        />
       ))}
-    </MapContainer>
+    </MapView>
   );
 };

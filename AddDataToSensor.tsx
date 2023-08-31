@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Button, TextInput, View } from 'react-native';
 
 interface ISensorData {
   secretKey: string;
@@ -8,55 +9,76 @@ interface ISensorData {
     location: {
       x: string;
       y: string;
-    };
-    readings: {
+    },
+    readings: [{
       type: string;
       unit: string;
       value: string;
-    }[];
+    }],
   };
 }
 
-const PostSensorData: React.FC = () => {
-  const sensorData: ISensorData = {
-    secretKey: 'your_secret_key',
-    data: {
-      sensorId: 'your_sensor_id',
-      timestamp: '2023-08-30T23:12:29.161Z',
-      location: {
-        x: 'your_location_x',
-        y: 'your_location_y',
-      },
-      readings: [
-        {
-          type: 'your_type',
-          unit: 'your_unit',
-          value: 'your_value',
-        },
-      ],
-    },
-  };
+export const SensorDataForm: React.FC = () => {
+  // Initializng state for each field
+  const [secretKey, setSecretKey] = useState('');
+  const [sensorId, setSensorId] = useState('');
+  const [timestamp, setTimestamp] = useState('');
+  const [x, setX] = useState('');
+  const [y, setY] = useState('');
+  const [type, setType] = useState('');
+  const [unit, setUnit] = useState('');
+  const [value, setValue] = useState('');
 
-  const postData = async () => {
+  // Function to send data
+  const sendData = async (sensorData: ISensorData) => {
     try {
       const response = await fetch('https://smartsensify.onrender.com/api/sensors/data', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(sensorData),
+        body: JSON.stringify(sensorData)
       });
-
-      const data = await response.json();
-      console.log(data);
+      const json = await response.json();
+      console.log(json);
     } catch (error) {
-      console.error('Oops! Something went wrong:', error);
+      console.error('Error:', error);
     }
   };
 
   return (
-    <button onClick={postData}>Post Sensor Data</button>
+    <View>
+      <TextInput placeholder="Secret Key" onChangeText={setSecretKey} />
+      <TextInput placeholder="Sensor ID" onChangeText={setSensorId} />
+      <TextInput placeholder="Timestamp" onChangeText={setTimestamp} />
+      <TextInput placeholder="Location X" onChangeText={setX} />
+      <TextInput placeholder="Location Y" onChangeText={setY} />
+      <TextInput placeholder="Type" onChangeText={setType} />
+      <TextInput placeholder="Unit" onChangeText={setUnit} />
+      <TextInput placeholder="Value" onChangeText={setValue} />
+      <Button
+        title="Submit"
+        onPress={() =>
+          sendData({
+            secretKey,
+            data: {
+              sensorId,
+              timestamp,
+              location: {
+                x,
+                y,
+              },
+              readings: [
+                {
+                  type,
+                  unit,
+                  value,
+                },
+              ],
+            },
+          })
+        }
+      />
+    </View>
   );
 };
-
-export default PostSensorData;

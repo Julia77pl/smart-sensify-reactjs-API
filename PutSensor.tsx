@@ -10,7 +10,7 @@ interface ISensor {
   secretKey?: string;
 }
 
-export const SensorDetail: React.FC<{ id: string }> = ({ id }) => {
+export const SensorDetailput: React.FC<{ id: string }> = ({ id }) => {
   const [sensor, setSensor] = useState<ISensor | null>(null);
   const [name, setName] = useState('');
   const [type, setType] = useState('');
